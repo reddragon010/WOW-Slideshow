@@ -55,7 +55,7 @@ class WowSlideshow {
 	private function generateCode(){
 		$jsonData = json_encode($this->data);
 		$selector = WowSlideshow::SLIDESHOW_SELECTOR;
-		$this->code = "$(function() { Slideshow.initialize( '{$selector}', {$jsonData} ); });";
+		$this->code = "jQuery(document).ready(function() { Slideshow.initialize( '{$selector}', {$jsonData} ); });";
 		$this->code = str_replace("\\/", '/', $this->code); //dirty hack to fix the urls. json_encode brackes it with his escaping
 	}
 	

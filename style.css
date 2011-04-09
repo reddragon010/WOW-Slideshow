@@ -1,15 +1,15 @@
 /* slideshow */
-#slideshow { height: 262px; width: 657px; overflow: hidden; position: relative; }
-#slideshow .container { height: 262px; width: 657px; position: relative; z-index: 10; }
-#slideshow .mask { height: 262px; width: 657px; position: absolute; top: 0; left: 0; z-index: 30; cursor: pointer; }
-#slideshow .caption { position: absolute; left: 30px; bottom: 30px; width: 600px; z-index: 35; }
-#slideshow .caption h3 { font-size: 28px; color: #fff; font-weight: normal; }
+#slideshow { height: 244px; width: 657px; overflow: hidden; position: relative; display: inline-block;}
+#slideshow { float: left;}
+#slideshow img { display:  inline-block;}
+#slideshow .container { height: 244px; width: 657px; position: relative; z-index: 10; }
+#slideshow .mask { height: 244px; width: 657px; position: absolute; top: 0; left: 0; z-index: 30; cursor: pointer; }
 #slideshow .paging { position: absolute; top: 15px; right: 15px; width: 15px; z-index: 35; }
-#slideshow .paging a { display: block; height: 10px; margin-bottom: 5px; background-color: #fff; opacity: .5; -moz-border-radius: 3px; border-radius: 3px }
+#slideshow .paging a { display: block; height: 10px; margin-bottom: 5px; background-color: #eee; opacity: .5; }
 #slideshow .paging a:hover,
 #slideshow .paging a.current { opacity: 1; }
-#slideshow .preview { color: #000; text-align: center; width: 100px; padding: 5px; background: #fff; position: absolute; display: none; right: 35px; top: 15px; -moz-border-radius: 5px; border-radius: 5px; z-index: 35; }
+#slideshow .preview { color: #000; text-align: center; width: 100px; padding: 5px; background: #eee; position: absolute; display: none; right: 35px; top: 15px; z-index: 35; opacity: .85; }
 #slideshow .preview span { display: block; }
-#slideshow .slide { height: 262px; width: 657px; position: absolute; top: 0; left: 0; background-position: 0 0; background-repeat: no-repeat; z-index: 15; }
-#slideshow .slide .click-area { width: 657px; height: 262px; position: absolute; bottom: 0; left: 0; z-index: 20; }
+#slideshow .slide { height: 244px; width: 657px; position: absolute; top: 0; left: 0; background-position: 0 0; background-repeat: no-repeat; z-index: 15; }
+#slideshow .slide .click-area { width: 657px; height: 244px; position: absolute; bottom: 0; left: 0; z-index: 20; }
 #slideshow .slide .click-area embed { z-index: 25; }

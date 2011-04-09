@@ -51,32 +51,23 @@ var Slideshow = {
 		* Building basic ui
 		*/
 		buildup: function() {
-			Slideshow.object.append("\
-				<div class=\"container\"></div>\
-				<div class=\"paging\"></div>\
-				<div class=\"caption\"></div>\
-				<div class=\"preview\"></div>\
-				<div class=\"mask\"></div>\
-			");
-			for(key in Slideshow.data){
-				slide = Slideshow.data[key];
-				
-				Slideshow.object.find('.container').append("\
-					<div class=\"slide\" id=\"slide-" + key + "\" style=\"background-image: url('" + slide.image + "'); \"></div>\
-				");
-				
-				if(key == 0){
+			for(var i = 0; i < Slideshow.data.length; i++){
+				if(i == 0){
+					display = ""
 					pageing_class = "class=\"current\"";
-					Slideshow.object.find('.caption').append("\
-						<h3><a href=\"#\" class=\"link\">" + slide.title + "</a></h3>" + slide.desc);
 				} else {
+					display = "display: none;"
 					pageing_class = "";
 				}
 				
+				Slideshow.object.find('.container').append("\
+					<div class=\"slide\" id=\"slide-" + i + "\" style=\"background-image: url('" + Slideshow.data[i].image + "');"+ display +"\"></div>\
+				");
+				
 				Slideshow.object.find('.paging').append("\
-					<a href=\"javascript:;\" id=\"paging-" + key + "\"\
-						onclick=\"Slideshow.jump(" + key + ", this);\"\
-						onmouseover=\"Slideshow.preview(" + key + ");\" "+ pageing_class + "\
+					<a href=\"javascript:;\" id=\"paging-" + i + "\"\
+						onclick=\"Slideshow.jump(" + i + ", this);\"\
+						onmouseover=\"Slideshow.preview(" + i + ");\" "+ pageing_class + "\
 					></a>\
 				");
 			}
@@ -90,7 +81,7 @@ var Slideshow = {
      * @constructor
      */
     initialize: function(object, data) {
-        Slideshow.object = $(object);
+        Slideshow.object = jQuery(object);
         Slideshow.data = data;
 
 				Slideshow.buildup();
@@ -125,20 +116,8 @@ var Slideshow = {
 	 */
     fade: function(index) {
         Slideshow.slides.stop(true, true).fadeOut('normal');
-        Slideshow.slides.eq(index).fadeIn(1500);
+        Slideshow.slides.eq(index).fadeIn(1000);
         Slideshow.link(index);
-
-        var caption = Slideshow.object.find('.caption');
-
-        caption.stop(true, true).fadeOut('fast',
-        function() {
-            if (Slideshow.data[index]) {
-                caption.html("")
-                .append('<h3><a href="' + Slideshow.data[index].url + '" class="link">' + Slideshow.data[index].title + '</a></h3>')
-                .append(Slideshow.data[index].desc)
-                .fadeIn(1500);
-            }
-        });
 
         Slideshow.lastSlide = index;
     },
@@ -168,27 +147,9 @@ var Slideshow = {
 	 */
     link: function(index) {
         if (Slideshow.data[index]) {
-            Slideshow.object
-            .find('.mask')
-            .unbind('click.slideshow')
-            .bind('click.slideshow',
-            function() {
-                if (typeof _gaq != 'undefined') {
-                    var pushEvent = [
-                    '_trackEvent',
-                    Core.project + ' Banners',
-                    'Banner Click-Throughs',
-                    'Banner-' + Slideshow.data[index].id + '-' + encodeURIComponent(Slideshow.data[index].title.replace(' ', '_')) + '-' + Core.locale
-                    ];
-                    _gaq.push(pushEvent);
-                }
-
-                Core.goTo(Slideshow.data[index].url);
-            })
-            .end()
-            .find('.link')
-            .attr('href', Slideshow.data[index].url)
-            .end();
+            Slideshow.object.find('.mask').click(function(){
+							window.location = Slideshow.data[index].url;
+						});
         }
     },
 
@@ -228,7 +189,7 @@ var Slideshow = {
             top = (index * 15) + 15;
 
             if (Slideshow.data[index].image) {
-                $('<img/>', {
+                jQuery('<img/>', {
                     src: Slideshow.data[index].image,
                     width: 100,
                     height: 47,
@@ -270,53 +231,6 @@ var Slideshow = {
         Slideshow.pause();
         else
         Slideshow.play();
-    }
-
-};
-
-var TakeOver = {
-
-    /**
-	 * Open the take over ad and hide the slideshow.
-	 */
-    open: function() {
-        var cookie = Cookie.read('sc2.takeOver');
-
-        if (cookie && cookie == 1)
-        return;
-
-        $('.sidebar-promo').hide();
-    },
-
-    /**
-	 * Close the take over and play the slideshow.
-	 *
-	 * @param saveCookie
-	 */
-    close: function(saveCookie) {
-        $('#takeover-container').hide();
-        $('.sidebar-promo').show();
-
-        if (Slideshow.object) {
-            Slideshow.play();
-            $("#slideshow").show();
-        }
-
-        if (saveCookie) {
-            Cookie.create('sc2.takeOver', 1, {
-                expires: 48,
-                // Expires in 48 hours
-                path: '/'
-            });
-        }
-    },
-
-    /**
-	 * Play the media video.
-	 */
-    play: function() {
-        $("#takeover-play").hide();
-        $("#takeover-video").show();
     }
 
 };
